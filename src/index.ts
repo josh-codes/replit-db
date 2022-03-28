@@ -121,6 +121,10 @@ class Client {
 		const obj: {[key: string]: any} = {};
 		// Crate a promise for each key
 		await Promise.all(keys.map(async (key) => {
+			if (obj[key] === obj.__proto__) {
+				console.warn('Prototype detected, key skipped:', key);
+				return;
+			}
 			obj[key] = await this.get(key, raw);
 		}))
 		// Return the object
